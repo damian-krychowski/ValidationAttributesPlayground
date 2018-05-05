@@ -6,17 +6,18 @@ using ValidationAttributesPlayground.Infrastructure;
 
 namespace ValidationAttributesPlayground
 {
-    public class MaxLengthAttributeTests
+    public class MinAndMaxLengthAttributesTests
     {
-        private const int MaxLength = 5;
+        private const int MinLength = 5;
+        private const int MaxLength = 10;
 
         [Test]
-        public void when_string_is_equal_to_max_validation_passes()
+        public void when_string_is_within_range_validation_passes()
         {
             //given
-            var sut = new StringWithMaxLength
+            var sut = new StringWithMinAndMaxLength
             {
-                String = GenerateString.WithLength(MaxLength)
+                String = GenerateString.WithLength((MinLength + MaxLength) / 2)
             };
 
             //then
@@ -24,23 +25,10 @@ namespace ValidationAttributesPlayground
         }
 
         [Test]
-        public void when_string_is_shorter_than_max_validation_passes()
+        public void when_string_is_longer_than_max_validation_faile()
         {
             //given
-            var sut = new StringWithMaxLength
-            {
-                String = GenerateString.WithLength(MaxLength - 1)
-            };
-
-            //then
-            Validate(sut).Should().NotThrow<ValidationException>();
-        }
-
-        [Test]
-        public void when_string_is_longer_than_max_validation_fails()
-        {
-            //given
-            var sut = new StringWithMaxLength
+            var sut = new StringWithMinAndMaxLength
             {
                 String = GenerateString.WithLength(MaxLength + 1)
             };
@@ -48,9 +36,23 @@ namespace ValidationAttributesPlayground
             //then
             Validate(sut).Should().Throw<ValidationException>();
         }
-        
-        public class StringWithMaxLength
+
+        [Test]
+        public void when_string_is_shorter_than_min_validation_fails()
         {
+            //given
+            var sut = new StringWithMinAndMaxLength
+            {
+                String = GenerateString.WithLength(MinLength - 1)
+            };
+
+            //then
+            Validate(sut).Should().Throw<ValidationException>();
+        }
+
+        public class StringWithMinAndMaxLength
+        {
+            [MinLength(MinLength)]
             [MaxLength(MaxLength)]
             public string String { get; set; }
         }

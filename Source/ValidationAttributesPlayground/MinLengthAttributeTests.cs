@@ -8,15 +8,15 @@ namespace ValidationAttributesPlayground
 {
     public class MinLengthAttributeTests
     {
-        private const int MinimumLength = 5;
+        private const int MinLength = 5;
 
         [Test]
-        public void when_string_is_equal_to_minimum_validation_passes()
+        public void when_string_is_equal_to_min_validation_passes()
         {
             //given
-            var sut = new StringWithMinimumLength
+            var sut = new StringWithMinLength
             {
-                String = GenerateString.WithLength(MinimumLength)
+                String = GenerateString.WithLength(MinLength)
             };
 
             //then
@@ -24,12 +24,12 @@ namespace ValidationAttributesPlayground
         }
 
         [Test]
-        public void when_string_is_longer_than_minimum_validation_passes()
+        public void when_string_is_longer_than_min_validation_passes()
         {
             //given
-            var sut = new StringWithMinimumLength
+            var sut = new StringWithMinLength
             {
-                String = GenerateString.WithLength(MinimumLength + 1)
+                String = GenerateString.WithLength(MinLength + 1)
             };
 
             //then
@@ -37,21 +37,21 @@ namespace ValidationAttributesPlayground
         }
 
         [Test]
-        public void when_string_is_shorter_than_minimum_validation_fails()
+        public void when_string_is_shorter_than_min_validation_fails()
         {
             //given
-            var sut = new StringWithMinimumLength
+            var sut = new StringWithMinLength
             {
-                String = GenerateString.WithLength(MinimumLength - 1)
+                String = GenerateString.WithLength(MinLength - 1)
             };
 
             //then
             Validate(sut).Should().Throw<ValidationException>();
         }
 
-        public class StringWithMinimumLength
+        public class StringWithMinLength
         {
-            [MinLength(MinimumLength)]
+            [MinLength(MinLength)]
             public string String { get; set; }
         }
 

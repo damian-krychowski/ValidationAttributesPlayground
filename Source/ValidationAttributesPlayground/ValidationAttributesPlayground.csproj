@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="Infrastructure\GenerateString.cs" />
     <Compile Include="MaxLengthAttributeTests.cs" />
+    <Compile Include="MinAndMaxLengthAttributesTests.cs" />
     <Compile Include="MinLengthAttributeTests.cs" />
     <Compile Include="RequiredAttributeTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
